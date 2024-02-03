@@ -1,0 +1,15 @@
+services:
+  api:
+    restart: unless-stopped
+    build:
+      context: .
+      network: host
+    env_file: .env
+    volumes:
+      - type: bind
+        read_only: true
+        source: .
+        target: /usr/src/app
+    command: "python3 -m uvicorn server:app --reload --port=8000"
+    ports:
+      - ${APP_HOST}:${APP_PORT}:8000
